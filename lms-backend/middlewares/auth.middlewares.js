@@ -18,4 +18,12 @@ const isLoggedIn = async (req, res, next) => {
     }
 }
 
-export { isLoggedIn };
+const authorizeRoles = (...roles) => async (req, res, next) => {
+    const user = req.user;
+    if (!roles.includes(user.role)) {
+        return next(new AppError(`Role: ${user.role} is not allowed to access this resource`, 403));
+    }
+    next();
+}
+
+export { isLoggedIn, authorizeRoles };

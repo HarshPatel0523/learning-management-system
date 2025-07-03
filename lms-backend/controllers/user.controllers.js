@@ -13,7 +13,7 @@ const cookieOptions = {
 
 const register = async (req, res, next) => {
     try {
-        const { fullName, email, password } = req.body;
+        const { fullName, email, password, role } = req.body;
 
         if (!fullName || !email || !password) {
             return next(new AppError("Please provide all required fields", 400));
@@ -29,6 +29,7 @@ const register = async (req, res, next) => {
             fullName,
             email,
             password,
+            role: role || 'USER', 
             avatar: {
                 publicId: "default_avatar",
                 secureUrl: "https://res.cloudinary.com/default_avatar.png"
@@ -39,7 +40,7 @@ const register = async (req, res, next) => {
             return next(new AppError("User registration failed, Please try again!!!", 500));
         }
 
-        console.log(JSON.stringify(req.file));
+        // console.log(JSON.stringify(req.file));
 
         if (req.file) {
             try {
