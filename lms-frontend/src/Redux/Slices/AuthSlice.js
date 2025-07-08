@@ -2,10 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import toast from "react-hot-toast";
 import axiosInstance from "../../Config/axiosInstance";
 
+const dataFromStorage = localStorage.getItem("data");
 const initialState = {
     isLoggedIn: localStorage.getItem("isLoggedIn") || false,
     role: localStorage.getItem("role") || "",
-    data: JSON.parse(localStorage.getItem("data")) || {}
+    data: dataFromStorage && dataFromStorage !== "undefined" ? JSON.parse(dataFromStorage) : {}
 }
 
 export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
@@ -63,7 +64,7 @@ export const login = createAsyncThunk("/auth/signin", async (data) => {
             },
             error: 'Failed to authenticate your account'
         });
-        return await response;
+        return (await response).data; // Only return serializable data
     } catch(error) {
         console.log(error);
         toast.error(error?.response?.data?.message);
@@ -80,14 +81,12 @@ export const logout = createAsyncThunk("/auth/logout", async () => {
             },
             error: 'Failed to logout your account'
         });
-        return await response;
+        return (await response).data; // Only return serializable data
     } catch(error) {
         console.log(error);
         toast.error(error?.response?.data?.message);
     }
 })
-
-
 
 const authSlice = createSlice({
     name: "auth",

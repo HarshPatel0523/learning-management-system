@@ -31,7 +31,7 @@ const HomeLayout = ({ children }) => {
         e.preventDefault();
 
         const response = await dispatch(logout());
-        if(response?.payload?.data)
+        if(response?.payload?.success)
             navigate("/");
     }
 
@@ -84,8 +84,8 @@ const HomeLayout = ({ children }) => {
                         ) : (
                             <li className="absolute bottom-4 w-[90%]">
                                 <div className="w-full flex items-center justify-center">
-                                    <Link to="/user/profile" className="btn-primary px-4 py-1 font-semibold rounded-md w-full">Profile</Link>
-                                    <Link onClick={onLogout} className="btn-secondary px-4 py-1 font-semibold rounded-md w-full">Logout</Link>
+                                    <Link to="/user/profile" className="btn btn-primary px-4 py-1 font-semibold rounded-md w-1/2"> Profile</Link>
+                                    <Link onClick={onLogout} className="btn btn-secondary px-4 py-1 font-semibold rounded-md w-1/2"> Logout</Link>
                                 </div>
                             </li>
                         )
