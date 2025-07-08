@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.routes.js';
 import courseRoutes from './routes/course.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import miscellaneousRoutes from './routes/miscellaneous.routes.js';
 
 import { config } from 'dotenv';
 import morgan from 'morgan';
@@ -25,6 +26,7 @@ app.use(morgan('dev'))
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1/', miscellaneousRoutes);
 
 app.use('/ping', (req, res) => {
     res.status(200).json({ message: 'pong' });
