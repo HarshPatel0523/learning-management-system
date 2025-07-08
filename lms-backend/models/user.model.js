@@ -43,6 +43,11 @@ const userSchema = new Schema({
     },
     forgotPasswordToken: String,
     forgotPasswordExpiry: Date,
+    subscription: {
+        type: String,
+        enum: ['FREE', 'PAID'],
+        default: 'FREE',
+    }
 }, {
     timestamps: true,
 });

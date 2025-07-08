@@ -64,17 +64,14 @@ const HomeLayout = ({ children }) => {
                             )
                         }
 
-                        <li>
+                        <li className='top-1'>
                             <Link to="/courses">All Courses</Link>
                         </li>
-                        <li>
+                        <li className='top-1'>
                             <Link to="/contact">Contact Us</Link>
                         </li>
-                        <li>
+                        <li className='top-1'>
                             <Link to="/about">About Us</Link>
-                        </li>
-                        <li>
-                            <Link to="/courses"> All courses </Link>
                         </li>
 
                         {!isLoggedIn ? (

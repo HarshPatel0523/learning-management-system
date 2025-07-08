@@ -38,7 +38,7 @@ function SignUp() {
             setSignupData({
                 ...signupData,
                 avatar: uploadedImage
-            });
+            }); 
             const fileReader = new FileReader();
             fileReader.readAsDataURL(uploadedImage);
             fileReader.addEventListener("load", function () {
@@ -88,8 +88,6 @@ function SignUp() {
             avatar: ""
         });
         setPreviewImage("");
-
-
     }
 
     return (
@@ -121,7 +119,7 @@ function SignUp() {
                             name="fullName"
                             id="fullName"
                             placeholder="Enter your name.."
-                            className="bg-transparent px-2 py-1 border"
+                            className="bg-transparent p-3 px-4 mt-2 rounded-xl focus:shadow-[1px_1px_10px_black] focus:outline-none"
                             onChange={handleUserInput}
                             value={signupData.fullName}
                         />
@@ -134,7 +132,7 @@ function SignUp() {
                             name="email"
                             id="email"
                             placeholder="Enter your email.."
-                            className="bg-transparent px-2 py-1 border"
+                            className="bg-transparent p-3 px-4 mt-2 rounded-xl focus:shadow-[1px_1px_10px_black] focus:outline-none"
                             onChange={handleUserInput}
                             value={signupData.email}
                         />
@@ -147,13 +145,13 @@ function SignUp() {
                             name="password"
                             id="password"
                             placeholder="Enter your password.."
-                            className="bg-transparent px-2 py-1 border"
+                            className="bg-transparent p-3 px-4 mt-2 rounded-xl focus:shadow-[2px_1px_10px_black] focus:outline-none"
                             onChange={handleUserInput}
                             value={signupData.password}
                         />
                     </div>
 
-                    <button type="submit" className='mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
+                    <button type="submit" className='mt-2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 py-2 font-semibold text-lg cursor-pointer rounded-2xl'>
                         Create account
                     </button>
 
