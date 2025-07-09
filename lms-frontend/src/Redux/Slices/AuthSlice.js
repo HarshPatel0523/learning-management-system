@@ -28,7 +28,7 @@ export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
 
 export const updateProfile = createAsyncThunk("/auth/updateProfile", async (data) => {
     try {
-        const response = axiosInstance.put(`user/update/${data[0]}`, data[1]);
+        const response = axiosInstance.put(`user/update-profile`, data);
         toast.promise(response, {
             loading: 'Wait! updating your account',
             success: (data) => {
@@ -95,12 +95,14 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
         .addCase(login.fulfilled, (state, action) => {
-            localStorage.setItem("data", JSON.stringify(action?.payload?.data));
+            const user = action?.payload?.user || {};
+            const role = user?.role || "";
+            localStorage.setItem("data", JSON.stringify(user));
             localStorage.setItem("isLoggedIn", true);
-            localStorage.setItem("role", action?.payload?.data?.user?.role);
+            localStorage.setItem("role", role);
             state.isLoggedIn = true;
-            state.role = action?.payload?.data?.user?.role;
-            state.data = action?.payload?.data?.user;
+            state.role = role;
+            state.data = user;
         })
         .addCase(logout.fulfilled, (state) => {
             localStorage.clear();

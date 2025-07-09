@@ -40,7 +40,6 @@ function CourseCard({ data }) {
                     </p>
                 </div>
             </div>
-
         </div>
     );
 }
