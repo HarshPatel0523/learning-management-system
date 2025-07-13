@@ -3,7 +3,9 @@ import multer from 'multer';
 
 const upload = multer({
     dest : "uploads/",
-    limits: { fileSize: 50 * 1024 * 1024 },
+    limits: { 
+        fileSize: 100 * 1024 * 1024  // Increased to 100MB for video files
+    },
     storage: multer.diskStorage({
         destination: "uploads/",
         filename: (req, file, cb) => {
@@ -11,13 +13,28 @@ const upload = multer({
         },
     }),
     fileFilter: (req, file, cb) => {
-        let ext = path.extname(file.originalname);
-
-        if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png' && ext !== '.pdf' && ext !== '.mp4') {
-            return cb(new Error(`Unsupported file type! ${ext}`), false);
+        // Check if it's a lecture upload
+        if (file.fieldname === 'lecture') {
+            // Allowed video formats
+            const allowedVideoTypes = ['.mp4', '.webm', '.mkv'];
+            const ext = path.extname(file.originalname).toLowerCase();
+            
+            if (!allowedVideoTypes.includes(ext)) {
+                return cb(new Error('Only video files (mp4, webm, mkv) are allowed for lectures!'), false);
+            }
+            
+            cb(null, true);
+        } else {
+            // For other uploads (like thumbnails)
+            const allowedTypes = ['.jpg', '.jpeg', '.png'];
+            const ext = path.extname(file.originalname).toLowerCase();
+            
+            if (!allowedTypes.includes(ext)) {
+                return cb(new Error('Only images (jpg, jpeg, png) are allowed!'), false);
+            }
+            
+            cb(null, true);
         }
-
-        cb(null, true);
     },
 });
 

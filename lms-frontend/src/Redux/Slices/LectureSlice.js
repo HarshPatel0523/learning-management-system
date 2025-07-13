@@ -7,7 +7,6 @@ const initialState = {
     lectures: []
 }
 
-
 export const getCourseLectures = createAsyncThunk("/course/lecture/get", async (cid) => {
     try {
         const response = axiosInstance.get(`/courses/${cid}`);
@@ -24,20 +23,24 @@ export const getCourseLectures = createAsyncThunk("/course/lecture/get", async (
 
 export const addCourseLecture = createAsyncThunk("/course/lecture/add", async (data) => {
     try {
-        const formData = new FormData();
-        formData.append("lecture", data.lecture);
-        formData.append("title", data.title);
-        formData.append("description", data.description);
-
-        const response = axiosInstance.post(`/courses/${data.id}`, formData);
-        toast.promise(response, {
-            loading: "adding course lecture",
-            success: "Lecture added successfully",
-            error: "Failed to add the lectures"
+        const promise = axiosInstance.post(`/courses/${data.id}`, data.formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         });
-        return (await response).data;
+
+        toast.promise(promise, {
+            loading: "Adding course lecture",
+            success: "Lecture added successfully",
+            error: "Failed to add the lecture"
+        });
+
+        const response = await promise;
+        return response.data;
     } catch(error) {
-        toast.error(error?.response?.data?.message);
+        console.error("Error adding lecture:", error.response?.data || error.message);
+        toast.error(error?.response?.data?.message || "Failed to add lecture");
+        throw error;
     }
 });
 

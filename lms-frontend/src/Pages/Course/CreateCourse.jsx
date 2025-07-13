@@ -64,6 +64,8 @@ function CreateCourse() {
                 previewImage: ""
             });
             navigate("/courses");
+        } else {
+            toast.error(response?.payload?.message || "Failed to create course");
         }
     }
 
@@ -75,7 +77,7 @@ function CreateCourse() {
                     className="flex flex-col justify-center gap-5 rounded-lg p-4 text-white w-[700px] my-10 shadow-[0_0_10px_black] relative"
                 >
                     
-                    <Link className="absolute top-8 text-2xl link text-accent cursor-pointer" onClick={navigate(-1)}>
+                    <Link className="absolute top-8 text-2xl link text-accent cursor-pointer" onClick={() => navigate(-1)}>
                         <AiOutlineArrowLeft />
                     </Link>
 

@@ -44,19 +44,28 @@ function AddLecture() {
     async function onFormSubmit(e) {
         e.preventDefault();
         if(!userInput.lecture || !userInput.title || !userInput.description) {
-            toast.error("All fields are mandatory")
+            toast.error("All fields are mandatory");
             return;
         }
-        const response = await dispatch(addCourseLecture(userInput));
-        if(response?.payload?.success) {
-            navigate(-1);
-            setUserInput({
-                id: courseDetails?._id,
-                lecture: undefined,
-                title: "",
-                description: "",
-                videoSrc: ""
-            })
+
+        const formData = new FormData();
+        formData.append("title", userInput.title);
+        formData.append("description", userInput.description);
+        formData.append("lecture", userInput.lecture); // Must match the field name expected by multer
+
+        try {
+            const response = await dispatch(addCourseLecture({
+                id: courseDetails._id,
+                formData
+            })).unwrap();
+
+            if(response?.success) {
+                toast.success("Lecture added successfully");
+                navigate(`/course/displaylectures`, { state: courseDetails });
+            }
+        } catch(error) {
+            console.error("Error uploading lecture:", error);
+            toast.error(error.message || "Failed to upload lecture");
         }
     }
 

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
 import { deleteCourse, getAllCourses } from "../../Redux/Slices/CourseSlice";
+import { selectStats } from "../../Redux/Slices/StatSelectors";
 // import { getPaymentRecord } from "../../Redux/Slices/RazorpaySlice";
 import { getStatsData } from "../../Redux/Slices/StatSlice";
 ChartJS.register(ArcElement, BarElement, CategoryScale, Legend, LinearScale, Title, Tooltip);
@@ -19,9 +20,9 @@ function AdminDashboard() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     
-    const { allUsersCount, subscribedCount } = useSelector((state) => state.stat);
+    const { allUsersCount = 0, subscribedCount = 0 } = useSelector(selectStats);
 
-    const { allPayments, monthlySalesRecord } = useSelector((state) => state.razorpay);
+    // const { allPayments, monthlySalesRecord } = useSelector((state) => state.razorpay);
 
 
     const userData = {
@@ -44,7 +45,7 @@ function AdminDashboard() {
         datasets: [
             {
                 label: "Sales / Month",
-                data: monthlySalesRecord,
+                // data: monthlySalesRecord,
                 backgroundColor: ["red"],
                 borderColor: ["white"],
                 borderWidth: 2
@@ -74,7 +75,7 @@ function AdminDashboard() {
                 // await dispatch(getPaymentRecord())
             }
         )()
-    }, [])
+    }, [dispatch])
 
     return (
         <HomeLayout>
@@ -116,14 +117,14 @@ function AdminDashboard() {
                             <div className="flex items-center justify-between p-5 gap-5 rounded-md shadow-md">
                                 <div className="flex flex-col items-center">
                                     <p className="font-semibold">Subscription Count</p>
-                                    <h3 className="text-4xl font-bold">{allPayments?.count}</h3>
+                                    {/* <h3 className="text-4xl font-bold">{allPayments?.count}</h3> */}
                                 </div>
                                 <FcSalesPerformance className="text-yellow-500 text-5xl"/>
                             </div>
                             <div className="flex items-center justify-between p-5 gap-5 rounded-md shadow-md">
                                 <div className="flex flex-col items-center">
                                     <p className="font-semibold">Total Revenue</p>
-                                    <h3 className="text-4xl font-bold">{allPayments?.count * 499}</h3>
+                                    {/* <h3 className="text-4xl font-bold">{allPayments?.count * 499}</h3> */}
                                 </div>
                                 <GiMoneyStack className="text-green-500 text-5xl"/>
                             </div>

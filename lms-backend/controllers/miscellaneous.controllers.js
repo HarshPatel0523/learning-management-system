@@ -28,8 +28,7 @@ const userStats = async (req, res) => {
             newUsersToday: 0
         }
   
-        totalUsers = await User.countDocuments();
-        stats.totalUsers = totalUsers;
+        stats.totalUsers = await User.countDocuments();
 
         stats.activeUsers = await User.countDocuments({ isActive: true });
         stats.inactiveUsers = await User.countDocuments({ isActive: false });
@@ -42,7 +41,10 @@ const userStats = async (req, res) => {
 
         return res.status(200).json({ 
             success: true, 
-            stats 
+            allUsersCount: stats.totalUsers,
+            subscribedUsersCount: stats.activeUsers,
+            inactiveUsersCount: stats.inactiveUsers,
+            newUsersToday: stats.newUsersToday
         });
     } catch (error) {
         console.error("Error in userStats controller:", error);
